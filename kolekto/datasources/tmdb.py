@@ -27,11 +27,11 @@ class TmdbDatasource(Datasource):
 
     config_schema = TmdbDatasourceSchema()
 
-    URL_SEARCH = (u'http://api.themoviedb.org/3/search/movie'
+    URL_SEARCH = ('http://api.themoviedb.org/3/search/movie'
                    '?api_key=%(api_key)s&query=%(query)s')
-    URL_GET = u'http://api.themoviedb.org/3/movie/%(id)s?api_key=%(api_key)s'
-    URL_CAST = u'http://api.themoviedb.org/3/movie/%(id)s/casts?api_key=%(api_key)s'
-    URL_ALT = u'http://api.themoviedb.org/3/movie/%(id)s/alternative_titles?api_key=%(api_key)s'
+    URL_GET = 'http://api.themoviedb.org/3/movie/%(id)s?api_key=%(api_key)s'
+    URL_CAST = 'http://api.themoviedb.org/3/movie/%(id)s/casts?api_key=%(api_key)s'
+    URL_ALT = 'http://api.themoviedb.org/3/movie/%(id)s/alternative_titles?api_key=%(api_key)s'
 
     def _tmdb_search(self, title):
         ak = self.config.get('api_key')
@@ -42,7 +42,7 @@ class TmdbDatasource(Datasource):
     def _get(self, url, *args, **kwargs):
         ak = self.config.get('api_key')
         url = url % dict(api_key=ak, **kwargs)
-        for _ in xrange(3):
+        for _ in range(3):
             printer.debug('Requesting {url}', url=url)
             response = requests.get(url)
             if not response.ok:
@@ -129,12 +129,12 @@ class TmdbTVSeriesDatasource(Datasource):
 
     config_schema = TmdbDatasourceSchema()
 
-    URL_SEARCH = (u'http://api.themoviedb.org/3/search/tv?api_key=%(api_key)s&query=%(query)s')
-    URL_SERIES = u'http://api.themoviedb.org/3/tv/%(id)s?api_key=%(api_key)s'
-    URL_SEASON = u'http://api.themoviedb.org/3/tv/%(id)s/season/%(season)s?api_key=%(api_key)s'
-    URL_EPISODE = u'http://api.themoviedb.org/3/tv/%(id)s/season/%(season)s/episode/%(ep)s?api_key=%(api_key)s'
-    URL_CREDITS = u'http://api.themoviedb.org/3/tv/%(id)s/season/%(season)s/episode/%(ep)s/credits?api_key=%(api_key)s'
-    URL_ALT = u'http://api.themoviedb.org/3/tv/%(id)s/alternative_titles?api_key=%(api_key)s'
+    URL_SEARCH = ('http://api.themoviedb.org/3/search/tv?api_key=%(api_key)s&query=%(query)s')
+    URL_SERIES = 'http://api.themoviedb.org/3/tv/%(id)s?api_key=%(api_key)s'
+    URL_SEASON = 'http://api.themoviedb.org/3/tv/%(id)s/season/%(season)s?api_key=%(api_key)s'
+    URL_EPISODE = 'http://api.themoviedb.org/3/tv/%(id)s/season/%(season)s/episode/%(ep)s?api_key=%(api_key)s'
+    URL_CREDITS = 'http://api.themoviedb.org/3/tv/%(id)s/season/%(season)s/episode/%(ep)s/credits?api_key=%(api_key)s'
+    URL_ALT = 'http://api.themoviedb.org/3/tv/%(id)s/alternative_titles?api_key=%(api_key)s'
 
     def _tmdb_search(self, title):
         ak = self.config.get('api_key')
@@ -146,7 +146,7 @@ class TmdbTVSeriesDatasource(Datasource):
         ak = self.config.get('api_key')
         raise_on_404 = kwargs.pop('raise_on_404', False)
         url = url % dict(api_key=ak, **kwargs)
-        for _ in xrange(3):
+        for _ in range(3):
             printer.debug('Requesting {url}', url=url)
             response = requests.get(url)
             if raise_on_404 and response.status_code == 404:
@@ -254,7 +254,7 @@ class TmdbProxyDatasource(Datasource):
 
     def _get(self, uri, *args, **kwargs):
         url = self.config.get('base_url').rstrip('/') + uri
-        for _ in xrange(3):
+        for _ in range(3):
             printer.debug('Requesting {url}', url=url)
             response = requests_session.get(url, params=kwargs)
             if not response.ok :

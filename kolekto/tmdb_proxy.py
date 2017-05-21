@@ -11,7 +11,7 @@ import redis
 from flask import Flask, Response, request
 
 
-TMDB_API_URL = u'http://api.themoviedb.org/3'
+TMDB_API_URL = 'http://api.themoviedb.org/3'
 ONE_WEEK = 604800
 
 
@@ -56,10 +56,10 @@ def search():
         return Response(cached)
     else:
         try:
-            found = get_on_tmdb(u'/search/movie', query=request.args['query'])
+            found = get_on_tmdb('/search/movie', query=request.args['query'])
             movies = []
             for movie in found['results']:
-                cast = get_on_tmdb(u'/movie/%s/casts' % movie['id'])
+                cast = get_on_tmdb('/movie/%s/casts' % movie['id'])
                 year = datetime.strptime(movie['release_date'], '%Y-%m-%d').year if movie['release_date'] else None
                 movies.append({'title': movie['original_title'],
                                'directors': [x['name'] for x in cast['crew'] if x['department'] == 'Directing' and x['job'] == 'Director'],
@@ -82,9 +82,9 @@ def get_movie(tmdb_id):
         return Response(cached)
     else:
         try:
-            details = get_on_tmdb(u'/movie/%d' % tmdb_id)
-            cast = get_on_tmdb(u'/movie/%d/casts' % tmdb_id)
-            alternative = get_on_tmdb(u'/movie/%d/alternative_titles' % tmdb_id)
+            details = get_on_tmdb('/movie/%d' % tmdb_id)
+            cast = get_on_tmdb('/movie/%d/casts' % tmdb_id)
+            alternative = get_on_tmdb('/movie/%d/alternative_titles' % tmdb_id)
         except requests.HTTPError as err:
             return Response('TMDB API error: %s' % str(err), status=err.response.status_code)
         movie = {'title': details['original_title'],

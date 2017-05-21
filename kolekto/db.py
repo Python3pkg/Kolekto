@@ -20,7 +20,7 @@ class MoviesMetadata(JsonDbm):
     def itermovies(self):
         """ Iterate over (hash, movie) couple stored in database.
         """
-        return self.iteritems()
+        return iter(self.items())
 
 
 class AttachmentStore(object):

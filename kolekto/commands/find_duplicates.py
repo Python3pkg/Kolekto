@@ -21,7 +21,7 @@ class FindDuplicates(Command):
             hash_info = '<inv> %s </inv> (%s/%s)' % (movie_hash, movie.get('quality'), movie.get('ext'))
             hash_by_title[movie.get('title', None), movie.get('year', None)].append(hash_info)
 
-        for (title, year), hashs in hash_by_title.iteritems():
+        for (title, year), hashs in hash_by_title.items():
             if len(hashs) > 1:
                 printer.p('<b>{title}</b> ({year}): {hashs}', title=title,
                           year=year, hashs=' '.join(hashs))

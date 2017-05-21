@@ -1,5 +1,5 @@
 import os
-from itertools import product, izip
+from itertools import product
 
 from kolekto.printer import printer
 from kolekto.commands import Command
@@ -20,7 +20,7 @@ class FormatWrapper(object):
         if isinstance(self.obj, bool):
             if self.obj:
                 return self.title.title()
-        return unicode(self.obj)
+        return str(self.obj)
 
 
 def format_all(format_string, env):
@@ -31,8 +31,8 @@ def format_all(format_string, env):
     prepared_env = parse_pattern(format_string, env, lambda x, y: [FormatWrapper(x, z) for z in y])
     # Generate each possible combination, format the string with it and yield
     # the resulting string:
-    for field_values in product(*prepared_env.itervalues()):
-        format_env = dict(izip(prepared_env.iterkeys(), field_values))
+    for field_values in product(*iter(prepared_env.values())):
+        format_env = dict(zip(iter(prepared_env.keys()), field_values))
         yield format_string.format(**format_env)
 
 
@@ -99,8 +99,8 @@ class Link(Command):
                                     linkbase=os.path.join(args.tree, '.kolekto', 'movies'))
             fs_links.update(view_links)
 
-        db_links = set(db_links.iteritems())
-        fs_links = set(fs_links.iteritems())
+        db_links = set(db_links.items())
+        fs_links = set(fs_links.items())
 
         links_to_delete = fs_links - db_links
         links_to_create = db_links - fs_links
@@ -127,7 +127,7 @@ class Link(Command):
             if not args.dry_run:
                 try:
                     os.rmdir(os.path.join(args.tree, directory))
-                except OSError, err:
+                except OSError as err:
                     if err.errno != 39:  # Ignore "Directory not empty" error
                         raise
                 else:

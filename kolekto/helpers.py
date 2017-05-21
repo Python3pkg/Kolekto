@@ -2,7 +2,7 @@
 """
 
 import os
-import gdbm
+import dbm.gnu
 import json
 
 def get_hash(input_string):
@@ -26,7 +26,7 @@ class JsonDbm(object):
     """
 
     def __init__(self, filename, object_class=dict):
-        self._db = gdbm.open(filename, 'c')
+        self._db = dbm.gnu.open(filename, 'c')
         self._object_class = object_class
 
     def __contains__(self, key):

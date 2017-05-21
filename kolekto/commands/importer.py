@@ -205,7 +205,7 @@ class ImportMovies(BaseImport):
         while True:
             # Disable the title input if auto mode is enabled:
             if not args.auto:
-                title = printer.input(u'Title to search', default=title)
+                title = printer.input('Title to search', default=title)
             datasource, movie = self._search(mds, title, short_filename, year, auto=args.auto)
             if datasource == 'manual':
                 movie = self.profile.object_class()
@@ -238,7 +238,7 @@ class ImportMovies(BaseImport):
                     directors += movie['directors'][0]
             else:
                 directors = ''
-            fmt = u'<b>{title}</b> ({year}){directors} [{datasource}]'
+            fmt = '<b>{title}</b> ({year}){directors} [{datasource}]'
             choices.append(option((datasource, movie), fmt, title=movie['title'],
                                                             year=movie.get('year', 'Unknown'),
                                                             directors=directors,
@@ -271,9 +271,9 @@ class ImportTvSeries(BaseImport):
         while True:
             # Disable the title input if auto mode is enabled:
             if not args.auto:
-                title = printer.input(u'Title to search', default=title)
-                season_num = int(printer.input(u'Season number', default=season_num))
-                episode_num = int(printer.input(u'Episode number', default=episode_num))
+                title = printer.input('Title to search', default=title)
+                season_num = int(printer.input('Season number', default=season_num))
+                episode_num = int(printer.input('Episode number', default=episode_num))
             datasource, episode = self._search(mds, title, short_filename, season_num, episode_num, auto=args.auto)
             if datasource == 'manual':
                 episode = self.profile.object_class()
@@ -300,7 +300,7 @@ class ImportTvSeries(BaseImport):
         for datasource, movie in mdb.search(query, season=season_num, episode=episode_num):
             if auto:
                 return datasource, movie
-            fmt = u'<b>{title}</b> - <b>{ep}</b> S{season:02d}E{episode:02d} [{datasource}]'
+            fmt = '<b>{title}</b> - <b>{ep}</b> S{season:02d}E{episode:02d} [{datasource}]'
             choices.append(option((datasource, movie), fmt, title=movie['title'],
                                                             ep=movie['episode_title'],
                                                             season=movie['season'],

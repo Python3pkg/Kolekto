@@ -204,11 +204,11 @@ class KolektoPrinter(object):
         return self._output
 
     def _print(self, *args, **kwargs):
-        sep = kwargs.pop('sep', u' ')
-        end = kwargs.pop('end', u'\n')
+        sep = kwargs.pop('sep', ' ')
+        end = kwargs.pop('end', '\n')
         err = kwargs.pop('err', False)
         markup = kwargs.pop('markup', True)
-        text = sep.join(unicode(x) for x in args).format(**kwargs) + end
+        text = sep.join(str(x) for x in args).format(**kwargs) + end
         if markup:
             text = self.formatter.parse(text)
         if err:
@@ -242,20 +242,20 @@ class KolektoPrinter(object):
 
     def choice(self, choices):
         for i, (option, text, args) in enumerate(choices):
-            self.p(u'[{indice}] ' + text, indice=i + 1, **args)
+            self.p('[{indice}] ' + text, indice=i + 1, **args)
         self.p('')
         while True:
-            chosen = raw_input('Choice [1-{0}]? '.format(len(choices)))
+            chosen = input('Choice [1-{0}]? '.format(len(choices)))
             if chosen.isdigit() and 1 <= int(chosen) <= len(choices):
                 return choices[int(chosen) - 1][0]
 
     def input(self, prompt, default=None):
         if default is None:
-            default_text = u''
+            default_text = ''
         else:
-            default_text = u' [{0}]'.format(default)
-        prompt = u'{0}{1}? '.format(prompt, default_text)
-        answer = raw_input(prompt.encode(self._encoding)).rstrip('\n').decode(self._encoding)
+            default_text = ' [{0}]'.format(default)
+        prompt = '{0}{1}? '.format(prompt, default_text)
+        answer = input(prompt.encode(self._encoding)).rstrip('\n').decode(self._encoding)
         if not answer:
             answer = default
         return answer
@@ -265,7 +265,7 @@ class KolektoPrinter(object):
         """
         choices = '[%s/%s]' % ('Y' if default else 'y', 'n' if default else 'N')
         while True:
-            response = raw_input('%s %s' % (question, choices)).strip()
+            response = input('%s %s' % (question, choices)).strip()
             if not response:
                 return default
             elif response in 'yYoO':
@@ -276,7 +276,7 @@ class KolektoPrinter(object):
     def edit(self, text):
         """ Edit a text using an external editor.
         """
-        if isinstance(text, unicode):
+        if isinstance(text, str):
             text = text.encode(self._encoding)
         if self._editor is None:
             printer.p('Warning: no editor found, skipping edit')

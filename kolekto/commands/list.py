@@ -24,9 +24,9 @@ class ListingFormatWrapper(object):
             elif len(self.obj) > 1:
                 return '%s and %s' % (', '.join(self.obj[0:-1]), self.obj[-1])
             else:
-                return unicode(self.obj[0])
+                return str(self.obj[0])
         else:
-            return unicode(self.obj)
+            return str(self.obj)
 
     def __repr__(self):
         return repr(self.obj)
@@ -48,7 +48,7 @@ class List(Command):
         listings = dict((x.args, x) for x in config.subsections('listing'))
         listing = listings.get(args.listing)
         if listing is None:
-            if args.listing == u'default':
+            if args.listing == 'default':
                 return {'pattern': self._profile.list_default_pattern,
                         'order': self._profile.list_default_order}
             else:
@@ -61,11 +61,12 @@ class List(Command):
         mdb = self.get_metadata_db(args.tree)
         mds = MovieDatasource(config.subsections('datasource'), args.tree, self.profile.object_class)
         listing = self._config(args, config)
-        def _sorter((movie_hash, movie)):
+        def _sorter(xxx_todo_changeme):
+            (movie_hash, movie) = xxx_todo_changeme
             return tuple(movie.get(x) for x in listing['order'])
         movies = sorted(mdb.itermovies(), key=_sorter)
         # Get the current used listing:
         for movie_hash, movie in movies:
             movie = mds.attach(movie_hash, movie)
             prepared_env = parse_pattern(listing['pattern'], movie, ListingFormatWrapper)
-            printer.p(u'<inv><b> {hash} </b></inv> ' + listing['pattern'], hash=movie_hash, **prepared_env)
+            printer.p('<inv><b> {hash} </b></inv> ' + listing['pattern'], hash=movie_hash, **prepared_env)

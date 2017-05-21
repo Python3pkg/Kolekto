@@ -86,9 +86,9 @@ class WebExportFormatWrapper(object):
             elif len(self.obj) > 1:
                 return ', '.join(self.obj)
             else:
-                return unicode(self.obj[0])
+                return str(self.obj[0])
         else:
-            return unicode(self.obj)
+            return str(self.obj)
 
     def __repr__(self):
         return repr(self.obj)
@@ -112,7 +112,7 @@ class WebExport(Command):
         webexports = dict((x.args, x) for x in config.subsections('webexport'))
         webexport = webexports.get(args.webexport)
         if webexport is None:
-            if args.webexport == u'default':
+            if args.webexport == 'default':
                 raise NotImplementedError('Default webexport not implemented')  # FIXME
             else:
                 raise KolektoRuntimeError('Unknown webexport %r' % args.webexport)

@@ -11,7 +11,7 @@ METADATA_SORTER_FIRST = ('title', 'year', 'directors', 'cast', 'writers',
 def show(movie):
     """ Show the movie metadata.
     """
-    for key, value in sorted(movie.iteritems(), cmp=metadata_sorter, key=lambda x: x[0]):
+    for key, value in sorted(iter(movie.items()), cmp=metadata_sorter, key=lambda x: x[0]):
         if isinstance(value, list):
             if not value:
                 continue

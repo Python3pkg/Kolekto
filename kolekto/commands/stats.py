@@ -34,8 +34,8 @@ def humanize_filesize(value):
 def format_top(counter, top=3):
     """ Format a top.
     """
-    items = islice(reversed(sorted(counter.iteritems(), key=lambda x: x[1])), 0, top)
-    return u'; '.join(u'{g} ({nb})'.format(g=g, nb=nb) for g, nb in items)
+    items = islice(reversed(sorted(iter(counter.items()), key=lambda x: x[1])), 0, top)
+    return '; '.join('{g} ({nb})'.format(g=g, nb=nb) for g, nb in items)
 
 
 class Stats(Command):
